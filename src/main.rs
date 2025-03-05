@@ -13,7 +13,6 @@ fn main() {
 
     match args.ip {
         Some(ip) if !ip.is_empty() => {
-            println!("IP address: {}", ip);
             if check_lan_network(ip) {
                 println!("Network is up!");
                 std::process::exit(0);
