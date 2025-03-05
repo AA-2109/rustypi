@@ -22,5 +22,5 @@ cargo build --release
 
 To check the LAN connectivity for a specific IP address, use the following command:
 ```sh
-./target/release/LAN_check --ip <IP_ADDRESS>
+./target/release/LAN_check --ip=<IP_ADDRESS>
 ```
