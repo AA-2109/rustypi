@@ -1,0 +1,11 @@
+[package]
+name = "LAN_Check"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "LAN_Check"
+path = "src/main.rs"
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
