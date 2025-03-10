@@ -1,9 +1,7 @@
 mod network;
 mod mount;
-
 use std::ops::Not;
 use clap::Parser;
-use std::process::Command;
 
 #[derive(Parser)]
 #[command(name = "LAN_check")]
@@ -14,6 +12,11 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    network::check_and_fix_network(args);
-    mount::check_and_fix_mount();
+    if !network::check_and_fix_network(args) {
+        print!("Network not ok")
+    }
+    if !mount::check_and_fix_mount() {
+        print!("Mount not ok")
+    }
+    println!("Network and Mount are OK!");
 }
