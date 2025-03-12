@@ -1,6 +1,5 @@
 mod network;
 mod mount;
-use std::ops::Not;
 use clap::Parser;
 
 #[derive(Parser)]
@@ -12,11 +11,11 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    if !network::check_and_fix_network(args) {
-        print!("Network not ok")
+    if  !network::check_and_fix_network(args) {
+        print!("Network is NOK")
     }
     if !mount::check_and_fix_mount() {
-        print!("Mount not ok")
+        print!("Mount is NOK")
     }
     println!("Network and Mount are OK!");
 }

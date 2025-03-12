@@ -1,16 +1,18 @@
 use std::process::Command;
 use crate::Args;
 
-pub(crate) fn check_and_fix_network(args: Args) {
+pub(crate) fn check_and_fix_network(args: Args) -> bool {
 
     match args.ip {
         Some(ip) if !ip.is_empty() => {
             if !check_lan_network(ip) {
                 println!("Network is down!");
                 if !restart_network() {
+                    false;
                     std::process::exit(1);
                 }
             }
+            true
         }
         _ => {
             eprintln!("Error: IP address is required and cannot be empty.");
