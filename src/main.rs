@@ -1,6 +1,9 @@
 mod network;
 mod mount;
+mod pihole;
+
 use clap::Parser;
+use crate::pihole::update_pihole_database;
 
 #[derive(Parser)]
 #[command(name = "LAN_check")]
@@ -16,6 +19,10 @@ fn main() {
     }
     if !mount::check_and_fix_mount() {
         print!("Mount is NOK")
+    }
+
+    if !update_pihole_database() {
+        print!("Pihole database update is NOK")
     }
     println!("Network and Mount are OK!");
 }
