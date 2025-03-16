@@ -9,15 +9,16 @@ use crate::pihole::update_pihole_database;
 #[command(name = "rustypi")]
 #[command(about = "Checks network connectivity, mounts and updates pi-hole gravity list", version = "1.1", author = "Artem Azamatov <azamatovartem@gmail.com>")]
 struct Args {
-    ip: Option<String>,
+    path_to_share: String,
 }
 
 fn main() {
+    let args = Args::parse();
     if  !network::check_and_fix_network() {
         print!("Network is NOK")
     }
 
-    if !mount::check_and_fix_mount() {
+    if !mount::check_and_fix_mount(args.path_to_share) {
         print!("Mount is NOK")
     }
 

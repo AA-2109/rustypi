@@ -1,7 +1,7 @@
 use std::process::Command;
 
-pub(crate) fn check_and_fix_mount() -> bool {
-    if !check_for_share_mount() {
+pub(crate) fn check_and_fix_mount(path_to_share: String) -> bool {
+    if !check_for_share_mount(path_to_share) {
         if !remount_share() {
             return false;
         }
@@ -9,10 +9,10 @@ pub(crate) fn check_and_fix_mount() -> bool {
     true
 }
 
-fn check_for_share_mount() -> bool {
+fn check_for_share_mount(path_to_share: String) -> bool {
     let output = Command::new("test")
         .arg("-d")
-        .arg("/mnt/share")
+        .arg(path_to_share)
         .output()
         .expect("Failed to execute command");
     if output.status.success() {
