@@ -1,6 +1,7 @@
-# LAN_check
+# Rustypi
 
-`LAN_check` is a command-line tool that checks LAN connectivity for a given IP address and attempts to restart the network if it is down on Debian-based systems.
+`rustypi` is a command-line tool that checks LAN network, mounted share and updates Pi-hole Gravity database.
+Ideal for running periodically with cron, automating Raspberry Pi and Pi-Hole maintenance.
 
 ## Table of Contents
 
@@ -9,18 +10,23 @@
 
 ## Installation
 
-To install `LAN_check`, you need to have Rust installed on your system. If you don't have Rust installed, you can download and install it from [rust-lang.org](https://www.rust-lang.org/).
+To install `rustypi`, you need to have Rust installed on your system. If you don't have Rust installed, you can download and install it from [rust-lang.org](https://www.rust-lang.org/).
 
 Clone the repository and build the project:
 
 ```sh
-git clone https://github.com/yourusername/LAN_check.git
-cd LAN_check
+git clone https://github.com/yourusername/rustypi.git
+cd rustypi
 cargo build --release
 ```
-## Usage
+Alternatively, download compiled binary files from Release tab.
 
-To check the LAN connectivity for a specific IP address, use the following command:
+## Usage
+Run `rustypi` with path to mounted share as an argument:
 ```sh
-./target/release/LAN_check --ip=<IP_ADDRESS>
+./target/release/rustypi /mnt/share
+```
+To run periodically - use crontab -e:
+```sh
+*/60 * * * * /home/pi/Dokumenty/rustypi/target/release/rustypi /mnt/share
 ```

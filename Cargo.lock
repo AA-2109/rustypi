@@ -3,13 +3,6 @@
 version = 4
 
 [[package]]
-name = "LAN_Check"
-version = "0.1.0"
-dependencies = [
- "clap",
-]
-
-[[package]]
 name = "anstream"
 version = "0.6.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -139,6 +132,13 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c1f1914ce909e1658d9907913b4b91947430c7d9be598b15a1912935b8c04801"
 dependencies = [
  "proc-macro2",
+]
+
+[[package]]
+name = "rustypi"
+version = "0.2.0"
+dependencies = [
+ "clap",
 ]
 
 [[package]]

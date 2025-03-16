@@ -1,59 +1,29 @@
+mod network;
+mod mount;
+mod pihole;
+
 use clap::Parser;
-use std::process::Command;
+use crate::pihole::update_pihole_database;
 
 #[derive(Parser)]
-#[command(name = "LAN_check")]
-#[command(about = "Checks LAN connectivity", version = "1.0", author = "Artem Azamatov <azamatovartem@gmail.com>")]
+#[command(name = "rustypi")]
+#[command(about = "Checks network connectivity, mounts and updates pi-hole gravity list", version = "1.1", author = "Artem Azamatov <azamatovartem@gmail.com>")]
 struct Args {
-    ip: Option<String>,
+    path_to_share: String,
 }
 
 fn main() {
     let args = Args::parse();
-
-    match args.ip {
-        Some(ip) if !ip.is_empty() => {
-            if check_lan_network(ip) {
-                println!("Network is up!");
-                std::process::exit(0);
-            } else {
-                println!("Network is down!");
-                if restart_network() {
-                    std::process::exit(0);
-                } else {
-                    std::process::exit(1);
-                }
-            }
-        }
-        _ => {
-            eprintln!("Error: IP address is required and cannot be empty.");
-            std::process::exit(1);
-        }
+    if  !network::check_and_fix_network() {
+        print!("Network is NOK")
     }
-}
 
-fn check_lan_network(ip: String) -> bool {
-    let output = Command::new("ping")
-        .arg("-c")
-        .arg("1")
-        .arg(ip)
-        .output()
-        .expect("Failed to execute command");
-
-    output.status.success()
-}
-
-fn restart_network() -> bool {
-    let output = Command::new("systemctl")
-        .arg("restart")
-        .arg("networking")
-        .output()
-        .expect("Failed to restart networking");
-
-    if output.status.success() {
-        true
-    } else {
-        println!("{}", String::from_utf8_lossy(&output.stdout));
-        false
+    if !mount::check_and_fix_mount(args.path_to_share) {
+        print!("Mount is NOK")
     }
+
+    if !update_pihole_database() {
+        print!("Pihole database update is NOK")
+    }
+    println!("Network and Mount PiHole Database are OK!");
 }
