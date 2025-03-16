@@ -1,10 +1,10 @@
 [package]
-name = "LAN_Check"
-version = "0.1.0"
+name = "rustypi"
+version = "0.2.0"
 edition = "2024"
 
 [[bin]]
-name = "LAN_Check"
+name = "rustypi"
 path = "src/main.rs"
 
 [dependencies]

@@ -1,24 +1,15 @@
 use std::process::Command;
-use crate::Args;
 
-pub(crate) fn check_and_fix_network(args: Args) -> bool {
-
-    match args.ip {
-        Some(ip) if !ip.is_empty() => {
-            if !check_lan_network(ip) {
-                println!("Network is down!");
-                if !restart_network() {
-                    false;
-                    std::process::exit(1);
-                }
-            }
-            true
-        }
-        _ => {
-            eprintln!("Error: IP address is required and cannot be empty.");
+pub(crate) fn check_and_fix_network() -> bool {
+    let ip = get_lan_gw_ip();
+    if !check_lan_network(ip) {
+        println!("Network is down!");
+        if !restart_network() {
+            false;
             std::process::exit(1);
         }
     }
+    true
 }
 
 
@@ -46,4 +37,19 @@ fn restart_network() -> bool {
         println!("{}", String::from_utf8_lossy(&output.stdout));
         false
     }
+}
+
+
+fn get_lan_gw_ip () -> String {
+    let output = Command::new("sh")
+        .arg("-c")
+        .arg("ip r | awk '/default/ {print $3}'")
+        .output().expect("Failed to execute command");
+    if output.status.success() {
+        String::from_utf8_lossy(&output.stdout).trim().to_string()
+    } else {
+        println!("{}", String::from_utf8_lossy(&output.stdout));
+        String::from_utf8_lossy(&output.stderr).trim().to_string()
+    }
+
 }

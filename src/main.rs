@@ -13,8 +13,7 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse();
-    if  !network::check_and_fix_network(args) {
+    if  !network::check_and_fix_network() {
         print!("Network is NOK")
     }
 
@@ -25,5 +24,5 @@ fn main() {
     if !update_pihole_database() {
         print!("Pihole database update is NOK")
     }
-    println!("Network and Mount are OK!");
+    println!("Network and Mount PiHole Database are OK!");
 }
